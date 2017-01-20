@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <textarea cols="30" rows="10"></textarea>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $('textarea').hide();
+
+        var socket = io();
+        var path = window.location.pathname;
+        var pathArray = path.split('/');
+        var id = pathArray.pop();
+        if (id.length === 0) {
+            id = pathArray.pop();
+        }
+
+        socket.emit('load', id, function (text) {
+            $('textarea').val(text);
+            $('textarea').show();
+        });
+
+        $('textarea').on('input', function () {
+            socket.emit('change', { id: id, text: $('textarea').val() });
+        });
+
+        socket.on('change', function (e) {
+            if (e.id === id) {
+                $('textarea').val(e.text);
+            }
+        });
+    </script>
+</body>
+
+</html>
