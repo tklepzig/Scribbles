@@ -55,6 +55,11 @@ function makeid() {
 //     next();
 // });
 
+app.get("/clear", function (req, res) {
+    documents = {};
+    return res.redirect('/');
+});
+
 app.use("/d/:id", express.static(path.resolve(__dirname + "/../public")));
 
 app.get("/", function (req, res) {
@@ -73,7 +78,9 @@ socketIo.on('connection', function (socket) {
     console.log('Client connected:\t' + clientIp);
 
     socket.on('load', function (id, callback) {
-        callback(documents[id]);
+        if (documents[id]) {
+            callback(documents[id]);
+        }
     });
 
     socket.on('change', function (obj) {
