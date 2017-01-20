@@ -78,9 +78,11 @@ socketIo.on('connection', function (socket) {
     console.log('Client connected:\t' + clientIp);
 
     socket.on('load', function (id, callback) {
+        var text = '';
         if (documents[id]) {
-            callback(documents[id]);
+            var text = documents[id];
         }
+        callback(text);
     });
 
     socket.on('change', function (obj) {
