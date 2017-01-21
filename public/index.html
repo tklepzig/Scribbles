@@ -47,18 +47,38 @@
             id = pathArray.pop();
         }
 
+        function getFirstLine(text) {
+            var indexOfFirstLineBreak = text.indexOf('\n');
+            if (indexOfFirstLineBreak === -1) {
+                return text;
+            }
+            return text.substring(0, indexOfFirstLineBreak);
+        }
+
+        function setWindowTitle(title) {
+            if (title.length > 0) {
+                document.title = title + " - Scribbles";
+            }
+            else {
+                document.title = "Scribbles";
+            }
+        }
+
         socket.emit('load', id, function (text) {
             $('textarea').val(text);
             $('textarea').addClass('ready');
+            setWindowTitle(getFirstLine(text));
         });
 
         $('textarea').on('input', function () {
             socket.emit('change', { id: id, text: $('textarea').val() });
+            setWindowTitle(getFirstLine($('textarea').val()));
         });
 
         socket.on('change', function (e) {
             if (e.id === id) {
                 $('textarea').val(e.text);
+                setWindowTitle(getFirstLine(e.text));
             }
         });
     </script>
