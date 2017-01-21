@@ -21,6 +21,7 @@
 */
 
 var path = require('path');
+var file = require('./file')();
 var config = require('./config.json')[process.env.NODE_ENV || 'production'];
 var port = process.env.PORT || config.port;
 var express = require("express");
@@ -31,8 +32,14 @@ var socketIo = require('socket.io')(http, {
     pingTimeout: 2000,
     pingInterval: 2000
 });
-
+var documentsFile = path.resolve(__dirname + '/documents.json');
 var documents = {};
+var saveInterval;
+
+
+if (file.exist(documentsFile)) {
+    documents = JSON.parse(file.read(documentsFile));
+}
 
 function makeid() {
     var id = "";
@@ -44,33 +51,35 @@ function makeid() {
     return id;
 }
 
-// app.use(bodyParser.urlencoded({
-//     extended: false
-// }));
-// app.use(bodyParser.json());
+function startSaveTimer() {
+    saveInterval = setInterval(function () {
+        file.write(documentsFile, JSON.stringify(documents));
+    }, 1000 * 60 * 5);
+}
 
-// app.use(function (req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
+function stopSaveTimer() {
+    clearInterval(saveInterval);
+}
 
 app.get("/clear", function (req, res) {
+    stopSaveTimer();
     documents = {};
+    file.write(documentsFile, JSON.stringify(documents));
+    startSaveTimer();
     return res.redirect('/');
 });
 
-app.use("/d/:id", express.static(path.resolve(__dirname + "/../public")));
+app.use("/d/:id?", function (req, res, next) {
+    if (!req.params.id) {
+        return res.redirect('/');
+    }
+    next();
+}, express.static(path.resolve(__dirname + "/../public")));
 
 app.get("/", function (req, res) {
-
     var id = makeid();
     documents[id] = '';
     return res.redirect('/d/' + id);
-});
-
-app.use(function (request, response) {
-    response.redirect("/");
 });
 
 socketIo.on('connection', function (socket) {
@@ -90,6 +99,8 @@ socketIo.on('connection', function (socket) {
         socket.broadcast.emit('change', obj);
     });
 });
+
+startSaveTimer();
 
 http.listen(port, function () {
     console.log("listening on *:" + port);
