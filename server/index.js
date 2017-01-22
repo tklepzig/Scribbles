@@ -78,7 +78,6 @@ app.use("/d/:id?", function (req, res, next) {
 
 app.get("/", function (req, res) {
     var id = makeid();
-    documents[id] = '';
     return res.redirect('/d/' + id);
 });
 
