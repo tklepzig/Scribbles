@@ -38,41 +38,41 @@ var saveInterval;
 
 
 
-var nconf = require('nconf');
-nconf.file(path.resolve(__dirname + '/auth.json')).env();
-var authConfig = {
-    clientID: nconf.get('clientID'),
-    clientSecret: nconf.get('clientSecret'),
-    callbackURL: nconf.get('callbackURL')
-};
-var passport = require("passport");
+// var nconf = require('nconf');
+// nconf.file(path.resolve(__dirname + '/auth.json')).env();
+// var authConfig = {
+//     clientID: nconf.get('clientID'),
+//     clientSecret: nconf.get('clientSecret'),
+//     callbackURL: nconf.get('callbackURL')
+// };
+// var passport = require("passport");
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+// var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-function extractProfile(profile) {
-    let imageUrl = '';
-    if (profile.photos && profile.photos.length) {
-        imageUrl = profile.photos[0].value;
-    }
-    return {
-        id: profile.id,
-        displayName: profile.displayName,
-        image: imageUrl
-    };
-}
+// function extractProfile(profile) {
+//     let imageUrl = '';
+//     if (profile.photos && profile.photos.length) {
+//         imageUrl = profile.photos[0].value;
+//     }
+//     return {
+//         id: profile.id,
+//         displayName: profile.displayName,
+//         image: imageUrl
+//     };
+// }
 
-passport.serializeUser((user, cb) => {
-    cb(null, user);
-});
-passport.deserializeUser((obj, cb) => {
-    cb(null, obj);
-});
-passport.use(new GoogleStrategy(authConfig, function (token, refreshToken, profile, done) {
-    cb(null, extractProfile(profile));
-}));
+// passport.serializeUser((user, cb) => {
+//     cb(null, user);
+// });
+// passport.deserializeUser((obj, cb) => {
+//     cb(null, obj);
+// });
+// passport.use(new GoogleStrategy(authConfig, function (token, refreshToken, profile, done) {
+//     cb(null, extractProfile(profile));
+// }));
 
 
 
@@ -100,15 +100,15 @@ function stopSaveTimer() {
     clearInterval(saveInterval);
 }
 
-app.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
+// app.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-app.get("/clear", function (req, res) {
-    stopSaveTimer();
-    documents = {};
-    file.write(documentsFile, JSON.stringify(documents));
-    startSaveTimer();
-    return res.redirect('/');
-});
+// app.get("/clear", function (req, res) {
+//     stopSaveTimer();
+//     documents = {};
+//     file.write(documentsFile, JSON.stringify(documents));
+//     startSaveTimer();
+//     return res.redirect('/');
+// });
 
 app.use("/d/:id?", function (req, res, next) {
     if (!req.params.id) {
