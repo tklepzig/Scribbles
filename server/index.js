@@ -134,9 +134,17 @@ socketIo.on('connection', function (socket) {
         callback(text);
     });
 
-    socket.on('change', function (obj) {
-        documents[obj.id] = obj.text;
-        socket.broadcast.emit('change', obj);
+    socket.on('change', function (e) {
+        documents[e.id] = e.text;
+        socket.broadcast.emit('change', e);
+    });
+
+    socket.on('delete', function (e) {
+        stopSaveTimer();
+        delete documents[e.id];
+        file.write(documentsFile, JSON.stringify(documents));
+        startSaveTimer();
+        socket.broadcast.emit('delete', e);
     });
 });
 

@@ -12,83 +12,79 @@
     <title>Scribbles</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdn.rawgit.com/tklepzig/flex-layout/master/dist/flex-layout.min.css">
-    <style>
-    html {
-        min-height: 100%;
-        height: 100%;
-    }
-    body {
-        background: #1d1d1d;
-        color: #ededed;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    textarea {
-        padding: 12px;
-        font-size: 12pt;
-        background: inherit;
-        border: none;
-        outline: none;
-        resize: none;
-        font-family: inherit;
-        color: inherit;
-        transition: opacity 0.8s ease-in-out;
-        opacity: 0;
-    }
-    textarea.ready {
-        opacity: 1;
-    }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="main.min.css">
 </head>
 
 <body class="layout-v layout-fill">
     <textarea autofocus class="flex"></textarea>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io();
-        var path = window.location.pathname;
-        var pathArray = path.split('/');
-        var id = pathArray.pop();
-        if (id.length === 0) {
-            id = pathArray.pop();
+    <div>
+        <i style="font-size: 0.8em;" class="fa fa-clone"></i>
+<i class="fa fa-trash-o"></i>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    var path = window.location.pathname;
+    var pathArray = path.split('/');
+    var id = pathArray.pop();
+    if (id.length === 0) {
+        id = pathArray.pop();
+    }
+
+    function getFirstLine(text) {
+        var indexOfFirstLineBreak = text.indexOf('\n');
+        if (indexOfFirstLineBreak === -1) {
+            return text;
         }
+        return text.substring(0, indexOfFirstLineBreak);
+    }
 
-        function getFirstLine(text) {
-            var indexOfFirstLineBreak = text.indexOf('\n');
-            if (indexOfFirstLineBreak === -1) {
-                return text;
-            }
-            return text.substring(0, indexOfFirstLineBreak);
+    function setWindowTitle(title) {
+        if (title.length > 0) {
+            document.title = title + " - Scribbles";
         }
-
-        function setWindowTitle(title) {
-            if (title.length > 0) {
-                document.title = title + " - Scribbles";
-            }
-            else {
-                document.title = "Scribbles";
-            }
+        else {
+            document.title = "Scribbles";
         }
+    }
 
-        socket.emit('load', id, function (text) {
-            $('textarea').val(text);
-            $('textarea').addClass('ready');
-            setWindowTitle(getFirstLine(text));
-        });
+    socket.emit('load', id, function (text) {
+        $('textarea').val(text);
+        $('body').addClass('ready');
+        setWindowTitle(getFirstLine(text));
+    });
 
-        $('textarea').on('input', function () {
-            socket.emit('change', { id: id, text: $('textarea').val() });
-            setWindowTitle(getFirstLine($('textarea').val()));
-        });
+    $('textarea').on('input', function () {
+        socket.emit('change', { id: id, text: $('textarea').val() });
+        setWindowTitle(getFirstLine($('textarea').val()));
+    });
 
-        socket.on('change', function (e) {
-            if (e.id === id) {
-                $('textarea').val(e.text);
-                setWindowTitle(getFirstLine(e.text));
-            }
-        });
-    </script>
+    $('.fa-clone').on('click', function () {
+        $('textarea').select();
+        var success = document.execCommand('copy');
+        console.log(success);
+    });
+
+    $('.fa-trash-o').on('click', function () {
+        socket.emit('delete', { id: id });
+        window.location = '/';
+    });
+
+    socket.on('change', function (e) {
+        if (e.id === id) {
+            $('textarea').val(e.text);
+            setWindowTitle(getFirstLine(e.text));
+        }
+    });
+
+    socket.on('delete', function (e) {
+        if (e.id === id) {
+            window.location = '/';
+        }
+    });
+</script>
 </body>
 
 </html>
