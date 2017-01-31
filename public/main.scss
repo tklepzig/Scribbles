@@ -28,11 +28,11 @@ textarea {
 div {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 20px;
     margin: 6px 14px;
     font-size: 1.7em;
     >i {
-        padding: 4px;
+        padding: 4px 10px;
         cursor: pointer;
         color: rgba(255, 255, 255, 0.3);
         &:first-child:hover {
