@@ -7,11 +7,9 @@
     "scss-watch": "node_modules/.bin/node-sass -w public/main.scss public/main.min.css --output-style compressed"
   },
   "dependencies": {
-    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
-    "nconf": "^0.8.4",
-    "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0",
+    "node-sass": "^4.5.0",
     "socket.io": "^1.7.2"
   }
 }

@@ -50,6 +50,10 @@
         }
     }
 
+    function deleteScribbleIdCookie() {
+        document.cookie = 'scribbleId=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
     socket.emit('load', id, function (text) {
         $('textarea').val(text);
         $('body').addClass('ready');
@@ -70,6 +74,7 @@
     $('.fa-trash-o').on('click', function () {
         if (confirm("Are you sure?")) {
             socket.emit('delete', { id: id });
+            deleteScribbleIdCookie();
             window.location = '/';
         }
     });
