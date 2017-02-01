@@ -68,8 +68,10 @@
     });
 
     $('.fa-trash-o').on('click', function () {
-        socket.emit('delete', { id: id });
-        window.location = '/';
+        if (confirm("Are you sure?")) {
+            socket.emit('delete', { id: id });
+            window.location = '/';
+        }
     });
 
     socket.on('change', function (e) {
