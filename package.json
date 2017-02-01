@@ -2,7 +2,9 @@
   "name": "scribbles",
   "version": "0.0.1",
   "scripts": {
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "scss": "node_modules/.bin/node-sass public/main.scss public/main.min.css --output-style compressed",
+    "scss-watch": "node_modules/.bin/node-sass -w public/main.scss public/main.min.css --output-style compressed"
   },
   "dependencies": {
     "connect-ensure-login": "^0.1.1",
