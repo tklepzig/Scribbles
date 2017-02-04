@@ -15,7 +15,7 @@ body {
 }
 
 textarea {
-    padding: 36px 12px 12px;
+    padding: 40px 12px 12px;
     font-size: 12pt;
     background: #1d1d1d;
     border: none;
@@ -27,12 +27,11 @@ textarea {
 
 div {
     position: absolute;
-    top: 0;
+    top: 10px;
     right: 20px;
-    margin: 6px 14px;
     font-size: 1.7em;
     >i {
-        padding: 4px 10px;
+        padding: 4px 12px;
         cursor: pointer;
         color: rgba(255, 255, 255, 0.3);
         &:first-child:hover {
