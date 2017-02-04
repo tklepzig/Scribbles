@@ -32,8 +32,16 @@ div {
     font-size: 1.7em;
     >i {
         padding: 4px 12px;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
         cursor: pointer;
+        -ms-touch-action: none;
+        touch-action: none;
+        outline: none;
         color: rgba(255, 255, 255, 0.3);
+        transition: color 0.3s ease-out;
         &:first-child:hover {
             color: white;
         }
