@@ -1,5 +1,5 @@
 {
     "presets": [
-        "eslatest-node6"
+        "es2015"
     ]
 }
