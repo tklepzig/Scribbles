@@ -52,3 +52,34 @@ div {
         }
     }
 }
+
+#dropArea {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: none;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > h4 {
+        color: #fff;
+        text-align: center;
+        background: #5B88A5;
+        box-shadow: #5B88A5 0 0 20px;
+        padding: 24px;
+        visibility: hidden;
+    }
+
+    &.visible {
+        z-index: 9999;
+        background: rgba(116, 145, 163, 0.4);
+
+        > h4 {
+            visibility: visible;
+        }
+    }
+}
