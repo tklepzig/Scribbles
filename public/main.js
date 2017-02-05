@@ -1,3 +1,4 @@
+/* global io */
 var socket = io();
 var path = window.location.pathname;
 var pathArray = path.split('/');
@@ -80,7 +81,7 @@ $('body').bind('dragover', function (e) {
     e.originalEvent.dataTransfer.dropEffect = 'copy';
 });
 
-$('#dropArea').bind('dragleave', function (e) {
+$('#dropArea').bind('dragleave', function () {
     $('#dropArea').removeClass('visible');
 });
 
@@ -119,7 +120,7 @@ $('#dropArea').bind('drop', function (e) {
             cache: false,
             contentType: false,
             processData: false,
-            success: function (data) {
+            success: function () {
                 console.log('upload successful!');
             },
             xhr: function () {

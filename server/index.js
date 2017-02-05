@@ -120,7 +120,6 @@ app.post("/upload/:id", function (req, res) {
     form.parse(req);
 });
 
-
 app.use("/d/:id?", function (req, res, next) {
     if (!req.params.id) {
         return res.redirect('/');
