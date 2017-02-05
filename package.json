@@ -10,8 +10,12 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "formidable": "^1.1.1",
-    "node-sass": "^4.5.0",
-    "node-uuid": "^1.4.7",
-    "socket.io": "^1.7.2"
+    "socket.io": "^1.7.2",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-eslatest-node6": "^1.0.1",
+    "node-sass": "^4.5.0"
   }
 }
