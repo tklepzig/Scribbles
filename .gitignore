@@ -200,3 +200,4 @@ FakesAssemblies/
 
 server/documents.json
 server/uploads/
+dist/

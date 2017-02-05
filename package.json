@@ -2,9 +2,14 @@
   "name": "scribbles",
   "version": "0.0.1",
   "scripts": {
-    "start": "node server/index.js",
-    "scss": "node_modules/.bin/node-sass public/main.scss public/main.min.css --output-style compressed",
-    "scss-watch": "node_modules/.bin/node-sass -w public/main.scss public/main.min.css --output-style compressed"
+    "scss": "node_modules/.bin/node-sass public/main.scss dist/public/main.min.css --output-style compressed --source-map-embed",
+    "scss-watch": "npm run scss -- -w",
+    "build-server": "node_modules/.bin/babel server --out-dir dist/server --source-maps inline --copy-files",
+    "build-server-watch": "npm run build-server -- -w",
+    "build-client": "node_modules/.bin/babel public --out-dir dist/public --source-maps inline --copy-files",
+    "build-client-watch": "npm run build-client -- -w",
+    "build": "npm run scss && npm run build-client && npm run build-server",
+    "start": "npm run build && node dist/server/index.js"
   },
   "dependencies": {
     "cookie-parser": "^1.4.3",
