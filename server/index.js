@@ -22,10 +22,12 @@
 
 var path = require('path');
 var file = require('./file')();
+var directory = require('./directory')();
 var config = require('./config.json')[process.env.NODE_ENV || 'production'];
 var port = process.env.PORT || config.port;
 var express = require("express");
 var formidable = require('formidable');
+var uuid = require("node-uuid");
 var fs = require('fs');
 var app = express();
 var cookieParser = require('cookie-parser');
@@ -35,6 +37,12 @@ var socketIo = require('socket.io')(http, {
     pingInterval: 2000
 });
 var documentsFile = path.resolve(__dirname + '/documents.json');
+const uploadDir = path.join(__dirname, '/uploads');
+
+if (!directory.exist(uploadDir)) {
+    directory.create(uploadDir);
+}
+
 var documents = {};
 var saveInterval;
 
@@ -65,13 +73,40 @@ function stopSaveTimer() {
 
 app.use(cookieParser());
 
-app.post("/upload", function (req, res) {
+app.get("/download/:fileId", function (req, res) {
+    var files = fs.readdirSync(uploadDir);
+    for (var i = 0; i < files.length; i++) {
+        var fileName = files[i];
+
+        var fileId = fileName.substr(0, fileName.indexOf("_"));
+        var fileNameWithoutId = fileName.substr(fileName.indexOf("_") + 1);
+
+        if (fileId === req.params.fileId) {
+            return res.download(path.join(uploadDir, fileName), fileNameWithoutId);
+        }
+    }
+    res.status(404).send('Not found');
+});
+
+app.post("/upload/:id", function (req, res) {
+    var id = req.params.id;
     var form = new formidable.IncomingForm();
     form.multiples = true;
-    form.uploadDir = path.join(__dirname, '/uploads');
+    form.uploadDir = uploadDir;
 
     form.on('file', function (field, file) {
-        fs.rename(file.path, path.join(form.uploadDir, file.name));
+        const fileId = uuid.v4();
+        fs.rename(file.path, path.join(form.uploadDir, fileId + "_" + file.name));
+
+        if (!documents[id]) {
+            documents[id] = {};
+        }
+        if (!documents[id].files) {
+            documents[id].files = [];
+        }
+        documents[id].files.push(fileId);
+
+        console.log(fileId);
     });
 
     form.on('error', function (err) {
@@ -116,15 +151,18 @@ socketIo.on('connection', function (socket) {
     console.log('Client connected:\t' + clientIp);
 
     socket.on('load', function (id, callback) {
-        var text = '';
-        if (documents[id]) {
-            var text = documents[id];
+        let text = '';
+        if (documents[id] && documents[id].text) {
+            text = documents[id].text;
         }
         callback(text);
     });
 
     socket.on('change', function (e) {
-        documents[e.id] = e.text;
+        if (!documents[e.id]) {
+            documents[e.id] = {};
+        }
+        documents[e.id].text = e.text;
         socket.broadcast.emit('change', e);
     });
 

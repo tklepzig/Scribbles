@@ -199,4 +199,4 @@ FakesAssemblies/
 *.opt
 
 server/documents.json
-server/auth.json
+server/uploads/

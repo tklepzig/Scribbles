@@ -113,7 +113,7 @@ $('#dropArea').bind('drop', function (e) {
         }
 
         $.ajax({
-            url: '/upload',
+            url: '/upload/' + id,
             type: 'POST',
             data: formData,
             cache: false,
