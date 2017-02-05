@@ -20,31 +20,31 @@
 
 */
 
-var path = require('path');
-var file = require('./file')();
-var directory = require('./directory')();
-var config = require('./config.json')[process.env.NODE_ENV || 'production'];
-var port = process.env.PORT || config.port;
-var express = require("express");
-var formidable = require('formidable');
-var uuid = require("node-uuid");
-var fs = require('fs');
-var app = express();
-var cookieParser = require('cookie-parser');
-var http = require("http").Server(app);
-var socketIo = require('socket.io')(http, {
+let path = require('path');
+let file = require('./file')();
+let directory = require('./directory')();
+let config = require('./config.json')[process.env.NODE_ENV || 'production'];
+let port = process.env.PORT || config.port;
+let express = require("express");
+let formidable = require('formidable');
+let uuid = require("node-uuid");
+let fs = require('fs');
+let app = express();
+let cookieParser = require('cookie-parser');
+let http = require("http").Server(app);
+let socketIo = require('socket.io')(http, {
     pingTimeout: 2000,
     pingInterval: 2000
 });
-var documentsFile = path.resolve(__dirname + '/documents.json');
+let documentsFile = path.resolve(__dirname + '/documents.json');
 const uploadDir = path.join(__dirname, '/uploads');
 
 if (!directory.exist(uploadDir)) {
     directory.create(uploadDir);
 }
 
-var documents = {};
-var saveInterval;
+let documents = {};
+let saveInterval;
 
 
 if (file.exist(documentsFile)) {
@@ -52,10 +52,10 @@ if (file.exist(documentsFile)) {
 }
 
 function makeid() {
-    var id = "";
-    var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let id = "";
+    let possible = "abcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (var i = 0; i < 6; i++)
+    for (let i = 0; i < 6; i++)
         id += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return id;
@@ -74,12 +74,12 @@ function stopSaveTimer() {
 app.use(cookieParser());
 
 app.get("/download/:fileId", function (req, res) {
-    var files = fs.readdirSync(uploadDir);
-    for (var i = 0; i < files.length; i++) {
-        var fileName = files[i];
+    let files = fs.readdirSync(uploadDir);
+    for (let i = 0; i < files.length; i++) {
+        let fileName = files[i];
 
-        var fileId = fileName.substr(0, fileName.indexOf("_"));
-        var fileNameWithoutId = fileName.substr(fileName.indexOf("_") + 1);
+        let fileId = fileName.substr(0, fileName.indexOf("_"));
+        let fileNameWithoutId = fileName.substr(fileName.indexOf("_") + 1);
 
         if (fileId === req.params.fileId) {
             return res.download(path.join(uploadDir, fileName), fileNameWithoutId);
@@ -89,8 +89,8 @@ app.get("/download/:fileId", function (req, res) {
 });
 
 app.post("/upload/:id", function (req, res) {
-    var id = req.params.id;
-    var form = new formidable.IncomingForm();
+    let id = req.params.id;
+    let form = new formidable.IncomingForm();
     form.multiples = true;
     form.uploadDir = uploadDir;
 
@@ -128,8 +128,8 @@ app.use("/d/:id?", function (req, res, next) {
 }, express.static(path.resolve(__dirname + "/../public")));
 
 app.get("/", function (req, res) {
-    var id;
-    var previousId = req.cookies.scribbleId;
+    let id;
+    let previousId = req.cookies.scribbleId;
 
     if (previousId) {
         id = previousId;
@@ -146,7 +146,7 @@ app.get("/", function (req, res) {
 });
 
 socketIo.on('connection', function (socket) {
-    var clientIp = socket.request.connection.remoteAddress;
+    let clientIp = socket.request.connection.remoteAddress;
     console.log('Client connected:\t' + clientIp);
 
     socket.on('load', function (id, callback) {

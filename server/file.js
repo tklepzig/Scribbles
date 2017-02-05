@@ -2,9 +2,9 @@
 
 module.exports = function() {
 
-    var module = {};
+    let module = {};
 
-    var fs = require('fs');
+    let fs = require('fs');
 
     module.write = function(path, content) {
         return fs.writeFileSync(path, content);

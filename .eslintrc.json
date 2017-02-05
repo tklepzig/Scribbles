@@ -12,6 +12,7 @@
         "sourceType": "module"
     },
     "rules": {
+        "no-var": "warn",
         "no-const-assign": "error",
         "no-this-before-super": "warn",
         "no-undef": "error",
