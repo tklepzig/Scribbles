@@ -2,14 +2,15 @@
   "name": "scribbles",
   "version": "0.0.1",
   "scripts": {
+    "start": "gulp start",
+    "gulp": "gulp",
     "scss": "node-sass public/main.scss dist/public/main.min.css --output-style compressed --source-map-embed",
     "scss-watch": "npm run scss -- -w",
     "build-server": "babel server --out-dir dist/server --source-maps inline --copy-files",
     "build-server-watch": "npm run build-server -- -w",
     "build-client": "babel public --out-dir dist/public --source-maps inline --copy-files",
     "build-client-watch": "npm run build-client -- -w",
-    "build": "npm run scss && npm run build-client && browserify dist/public/main.js -o dist/public/main.tmp && rm dist/public/main.js && mv dist/public/main.tmp dist/public/main.js && npm run build-server",
-    "start": "npm run build && node dist/server/index.js"
+    "build": "npm run scss && npm run build-client && browserify dist/public/main.js -o dist/public/main.tmp && rm dist/public/main.js && mv dist/public/main.tmp dist/public/main.js && npm run build-server"
   },
   "dependencies": {
     "cookie-parser": "^1.4.3",
@@ -22,6 +23,14 @@
     "babel-cli": "^6.22.2",
     "babel-preset-es2015": "^6.22.0",
     "browserify": "^14.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-browserify": "^0.5.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-run-sequence": "^0.3.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.1",
     "node-sass": "^4.5.0"
   }
 }
