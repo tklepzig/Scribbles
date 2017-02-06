@@ -52,13 +52,23 @@ gulp.task("browserify", () => {
 //   gulp.watch("dist/public/main.js", ["browserify"]);
 // });
 
+gulp.task("copy-server", function () {
+  return gulp.src(["server/**/*", "!server/**/*.js"])
+    .pipe(gulp.dest("dist/server"));
+});
+
+gulp.task("copy-client", function () {
+  return gulp.src(["public/**/*", "!public/**/*.js", "!public/**/*.scss"])
+    .pipe(gulp.dest("dist/public"));
+});
+
 gulp.task("build", (done) => {
-  runSequence("build-client", "scss", "browserify", "build-server", done);
+  runSequence("copy-client", "build-client", "scss", "browserify", "copy-server", "build-server", done);
 })
 
-gulp.task('start', ["build"], () => {
+gulp.task("start", ["build"], () => {
   nodemon({
-    script: 'dist/server/index.js'//,
-    // env: { 'NODE_ENV': 'development' }
+    script: "dist/server/index.js"//,
+    // env: { "NODE_ENV": "development" }
   })
 })

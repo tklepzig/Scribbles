@@ -3,14 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "gulp start",
-    "gulp": "gulp",
-    "scss": "node-sass public/main.scss dist/public/main.min.css --output-style compressed --source-map-embed",
-    "scss-watch": "npm run scss -- -w",
-    "build-server": "babel server --out-dir dist/server --source-maps inline --copy-files",
-    "build-server-watch": "npm run build-server -- -w",
-    "build-client": "babel public --out-dir dist/public --source-maps inline --copy-files",
-    "build-client-watch": "npm run build-client -- -w",
-    "build": "npm run scss && npm run build-client && browserify dist/public/main.js -o dist/public/main.tmp && rm dist/public/main.js && mv dist/public/main.tmp dist/public/main.js && npm run build-server"
+    "gulp": "gulp"
   },
   "dependencies": {
     "cookie-parser": "^1.4.3",
