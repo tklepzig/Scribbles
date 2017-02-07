@@ -1,28 +1,16 @@
 /* global io */
-var socket = io();
+import { Helper } from "./helper";
+import $ from "jquery";
+
+
+const socket = io();
 var path = window.location.pathname;
 var pathArray = path.split('/');
 var id = pathArray.pop();
 if (id.length === 0) {
     id = pathArray.pop();
 }
-
-function getFirstLine(text) {
-    var indexOfFirstLineBreak = text.indexOf('\n');
-    if (indexOfFirstLineBreak === -1) {
-        return text;
-    }
-    return text.substring(0, indexOfFirstLineBreak);
-}
-
-function setWindowTitle(title) {
-    if (title.length > 0) {
-        document.title = title + " - Scribbles";
-    }
-    else {
-        document.title = "Scribbles";
-    }
-}
+const helper = new Helper();
 
 function deleteScribbleIdCookie() {
     document.cookie = 'scribbleId=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -31,12 +19,12 @@ function deleteScribbleIdCookie() {
 socket.emit('load', id, function (text) {
     $('textarea').val(text);
     $('body').addClass('ready');
-    setWindowTitle(getFirstLine(text));
+    helper.setWindowTitle(helper.getFirstLine(text));
 });
 
 $('textarea').on('input', function () {
     socket.emit('change', { id: id, text: $('textarea').val() });
-    setWindowTitle(getFirstLine($('textarea').val()));
+    helper.setWindowTitle(helper.getFirstLine($('textarea').val()));
 });
 
 $('.fa-clone').on('click', function () {
@@ -56,7 +44,7 @@ $('.fa-trash-o').on('click', function () {
 socket.on('change', function (e) {
     if (e.id === id) {
         $('textarea').val(e.text);
-        setWindowTitle(getFirstLine(e.text));
+        helper.setWindowTitle(helper.getFirstLine(e.text));
     }
 });
 
@@ -100,7 +88,7 @@ $('#dropArea').bind('drop', function (e) {
     //     //     }
     //     // }
     // } else if (e.originalEvent.dataTransfer.files) {
-        files = e.originalEvent.dataTransfer.files;
+    files = e.originalEvent.dataTransfer.files;
     // }
 
     console.dir(files);
