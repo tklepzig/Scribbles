@@ -6,6 +6,7 @@ import babel from "gulp-babel";
 import browserify from "gulp-browserify";
 import nodemon from "gulp-nodemon";
 import runSequence from "gulp-run-sequence";
+import minify from "gulp-minify";
 
 gulp.task("scss", () => {
   return gulp.src("./public/main.scss")
@@ -46,6 +47,7 @@ gulp.task("build-client", () => {
 gulp.task("browserify", () => {
   gulp.src("dist/public/main.js")
     .pipe(browserify())
+    .pipe(minify({ ext: { min: '.min.js' } }))
     .pipe(gulp.dest("dist/public"))
 });
 // gulp.task("browserify:watch", () => {

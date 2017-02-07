@@ -120,12 +120,17 @@ app.post("/upload/:id", function (req, res) {
     form.parse(req);
 });
 
-app.use("/d/:id?", function (req, res, next) {
+//TODO: is there a better way than explicitly specify path to fa icon-font?
+app.use("/fonts", express.static(path.resolve(__dirname + "/../public/fonts")));
+app.use("/d/:id", express.static(path.resolve(__dirname + "/../public")));
+
+app.get("/d/:id?", function (req, res) {
     if (!req.params.id) {
         return res.redirect('/');
     }
-    next();
-}, express.static(path.resolve(__dirname + "/../public")));
+
+    return res.sendFile(path.resolve(__dirname + "/../public/index.html"));
+});
 
 app.get("/", function (req, res) {
     let id;
