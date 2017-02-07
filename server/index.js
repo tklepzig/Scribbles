@@ -120,10 +120,8 @@ app.post("/upload/:id", function (req, res) {
     form.parse(req);
 });
 
-//TODO: is there a better way than explicitly specify path to fa icon-font?
-app.use("/fonts", express.static(path.resolve(__dirname + "/../public/fonts")));
+//TODO: how to merge the following two app.* with the public dir?
 app.use("/d/:id", express.static(path.resolve(__dirname + "/../public")));
-
 app.get("/d/:id?", function (req, res) {
     if (!req.params.id) {
         return res.redirect('/');
