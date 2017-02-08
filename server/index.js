@@ -120,15 +120,7 @@ app.post("/upload/:id", function (req, res) {
     form.parse(req);
 });
 
-//TODO: how to merge the following two app.* with the public dir?
-app.use("/d/:id", express.static(path.resolve(__dirname + "/../public")));
-app.get("/d/:id?", function (req, res) {
-    if (!req.params.id) {
-        return res.redirect('/');
-    }
-
-    return res.sendFile(path.resolve(__dirname + "/../public/index.html"));
-});
+app.use("/:id", express.static(path.resolve(__dirname + "/../public")));
 
 app.get("/", function (req, res) {
     let id;
@@ -145,7 +137,7 @@ app.get("/", function (req, res) {
             httpOnly: false //otherwise it cannot be deleted by js on client side
         });
     }
-    return res.redirect('/d/' + id);
+    return res.redirect('/' + id);
 });
 
 socketIo.on('connection', function (socket) {
