@@ -7,6 +7,7 @@ import browserify from "gulp-browserify";
 import nodemon from "gulp-nodemon";
 import runSequence from "gulp-run-sequence";
 import minify from "gulp-minify";
+import del from 'del';
 
 gulp.task("scss", () => {
   return gulp.src("./public/main.scss")
@@ -64,8 +65,12 @@ gulp.task("copy-client", function () {
     .pipe(gulp.dest("dist/public"));
 });
 
+gulp.task("clean", () => {
+  return del('dist/**', { force: true });
+});
+
 gulp.task("build", (done) => {
-  runSequence("copy-client", "build-client", "scss", "browserify", "copy-server", "build-server", done);
+  runSequence("clean", "copy-client", "build-client", "scss", "browserify", "copy-server", "build-server", done);
 })
 
 gulp.task("start", ["build"], () => {
