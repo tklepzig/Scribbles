@@ -2,8 +2,9 @@
   "name": "scribbles",
   "version": "0.0.1",
   "scripts": {
-    "start": "gulp start",
-    "gulp": "gulp"
+    "start": "node server/index.js",
+    "scss": "node-sass public/main.scss public/main.min.css --output-style compressed",
+    "scss-watch": "node-sass -w public/main.scss public/main.min.css --output-style compressed"
   },
   "dependencies": {
     "cookie-parser": "^1.4.3",
@@ -13,22 +14,6 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
-    "babel-preset-es2015": "^6.22.0",
-    "browserify": "^14.0.0",
-    "del": "^2.2.2",
-    "flex-layout": "tklepzig/flex-layout",
-    "font-awesome": "^4.7.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-browserify": "^0.5.1",
-    "gulp-minify": "^0.0.15",
-    "gulp-nodemon": "^2.2.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-run-sequence": "^0.3.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.4.1",
-    "jquery": "^3.1.1",
     "node-sass": "^4.5.0"
   }
 }
