@@ -27,10 +27,11 @@ function deleteScribbleIdCookie() {
     document.cookie = 'scribbleId=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
-socket.emit('load', id, function (text) {
-    $('textarea').val(text);
+socket.emit('load', id, function (doc) {
+    $('textarea').val(doc.text);
     $('body').addClass('ready');
-    setWindowTitle(getFirstLine(text));
+    setWindowTitle(getFirstLine(doc.text));
+    console.dir(doc.files);
 });
 
 $('textarea').on('input', function () {

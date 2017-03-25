@@ -105,8 +105,6 @@ app.post("/upload/:id", function (req, res) {
             documents[id].files = [];
         }
         documents[id].files.push(fileId);
-
-        console.log(fileId);
     });
 
     form.on('error', function (err) {
@@ -146,10 +144,17 @@ socketIo.on('connection', function (socket) {
 
     socket.on('load', function (id, callback) {
         let text = '';
-        if (documents[id] && documents[id].text) {
-            text = documents[id].text;
+        let files = [];
+        if (documents[id]) {
+            if (documents[id].text) {
+                text = documents[id].text;
+            }
+            if (documents[id].files) {
+                files = documents[id].files;
+            }
         }
-        callback(text);
+
+        callback({ text: text, files: files });
     });
 
     socket.on('change', function (e) {
