@@ -1,4 +1,4 @@
-const socket = io();
+var socket = io();
 var path = window.location.pathname;
 var pathArray = path.split('/');
 var id = pathArray.pop();
@@ -7,7 +7,7 @@ if (id.length === 0) {
 }
 
 function getFirstLine(text) {
-    const indexOfFirstLineBreak = text.indexOf('\n');
+    var indexOfFirstLineBreak = text.indexOf('\n');
     if (indexOfFirstLineBreak === -1) {
         return text;
     }
@@ -89,7 +89,7 @@ $('#dropArea').bind('drop', function (e) {
     e.stopPropagation();
     e.preventDefault();
 
-    let files;
+    var files;
 
     // if (e.originalEvent.dataTransfer.items) {
     //     files = e.originalEvent.dataTransfer.items;
