@@ -27,6 +27,14 @@ function deleteScribbleIdCookie() {
     document.cookie = 'scribbleId=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
+function addFileToList(file) {
+    var $name = $("<span>").addClass("name flex").text(file.name).attr("title", file.name);
+    var $size = $("<span>").addClass("size").text(file.size);
+    var $a = $("<a>").addClass("layout-h").attr("href", "/download/" + file.id).append($name).append($size);
+    var $li = $("<li>").append($a);
+    $("#files > ul").append($li);
+}
+
 socket.emit('load', id, function (doc) {
     $('textarea').val(doc.text);
     $('body').addClass('ready');
@@ -35,12 +43,7 @@ socket.emit('load', id, function (doc) {
     if (doc.files.length > 0) {
         for (var i = 0; i < doc.files.length; i++) {
             var file = doc.files[i];
-
-            var $name = $("<span>").addClass("name flex").text(file.name).attr("title", file.name);
-            var $size = $("<span>").addClass("size").text(file.size);
-            var $a = $("<a>").addClass("layout-h").attr("href", "/download/" + file.id).append($name).append($size);
-            var $li = $("<li>").append($a);
-            $("#files > ul").append($li);
+            addFileToList(file);
         }
         $("#commands").addClass("short");
     }
@@ -79,6 +82,10 @@ socket.on('delete', function (e) {
     if (e.id === id) {
         window.location = '/';
     }
+});
+
+socket.on('fileUploaded', function (file) {
+    addFileToList(file);
 });
 
 

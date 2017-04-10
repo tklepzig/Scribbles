@@ -36,11 +36,11 @@ let uuid = require("uuid");
 let fs = require('fs');
 let app = express();
 let cookieParser = require('cookie-parser');
-let http = require("http").Server(app);
-let socketIo = require('socket.io')(http, {
-    pingTimeout: 2000,
-    pingInterval: 2000
-});
+let http = require("http");
+let httpServer = http.createServer(app);
+let socketIo = require("socket.io");
+let socketIoServer = socketIo.listen(httpServer);
+
 let documentsFile = path.resolve(__dirname + '/documents.json');
 const uploadDir = path.join(__dirname, '/uploads');
 
@@ -110,6 +110,7 @@ app.post("/upload/:id", function (req, res) {
             documents[id].files = [];
         }
         documents[id].files.push({ id: fileId, name: file.name, size: fileSizeSI(file.size) });
+        socketIoServer.sockets.emit("fileUploaded", { id: fileId, name: file.name, size: fileSizeSI(file.size) });
     });
 
     form.on('error', function (err) {
@@ -143,7 +144,7 @@ app.get("/", function (req, res) {
     return res.redirect('/' + id);
 });
 
-socketIo.on('connection', function (socket) {
+socketIoServer.on('connection', function (socket) {
     let clientIp = socket.request.connection.remoteAddress;
     console.log('Client connected:\t' + clientIp);
 
@@ -181,6 +182,6 @@ socketIo.on('connection', function (socket) {
 
 startSaveTimer();
 
-http.listen(port, function () {
+httpServer.listen(port, function () {
     console.log("listening on *:" + port);
 });
