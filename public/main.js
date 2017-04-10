@@ -45,7 +45,6 @@ socket.emit('load', id, function (doc) {
             var file = doc.files[i];
             addFileToList(file);
         }
-        $("#commands").addClass("short");
     }
     else {
         $("#files").addClass("hidden");
@@ -86,7 +85,6 @@ socket.on('delete', function (e) {
 
 socket.on('fileUploaded', function (file) {
     addFileToList(file);
-    $("#commands").addClass("short");
     $("#files").removeClass("hidden");
 });
 
