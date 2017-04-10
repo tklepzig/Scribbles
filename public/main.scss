@@ -113,16 +113,16 @@ div#dropArea {
     justify-content: center;
     align-items: center;
     >h4 {
-        color: #fff;
+        color: $foreground;
         text-align: center;
-        background: #5B88A5;
-        box-shadow: #5B88A5 0 0 20px;
+        background: mix($foreground, $background, 35%);
+        box-shadow: 0 0 20px 2px $background;
         padding: 24px;
         visibility: hidden;
     }
     &.visible {
         z-index: 9999;
-        background: rgba(116, 145, 163, 0.4);
+        background: rgba($foreground, 0.2);
         >h4 {
             visibility: visible;
         }

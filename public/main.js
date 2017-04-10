@@ -95,11 +95,11 @@ $('body').bind('dragover', function (e) {
     e.stopPropagation();
     e.preventDefault();
 
-    if (e.originalEvent.dataTransfer.items) {
-        $('#dropArea > h4').text('Dateien und Ordner hier ablegen, um sie der Upload-Liste hinzuzufügen');
-    } else {
-        $('#dropArea > h4').text('Dateien hier ablegen, um sie der Upload-Liste hinzuzufügen');
-    }
+    // if (e.originalEvent.dataTransfer.items) {
+    //     $('#dropArea > h4').text('Dateien und Ordner hier ablegen, um sie der Upload-Liste hinzuzufügen');
+    // } else {
+        $('#dropArea > h4').text('Drop files here to add them to the document.');
+    // }
 
     $('#dropArea').addClass('visible');
     e.originalEvent.dataTransfer.dropEffect = 'copy';
