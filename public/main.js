@@ -86,6 +86,8 @@ socket.on('delete', function (e) {
 
 socket.on('fileUploaded', function (file) {
     addFileToList(file);
+    $("#commands").addClass("short");
+    $("#files").removeClass("hidden");
 });
 
 
