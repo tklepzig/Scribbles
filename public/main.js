@@ -31,7 +31,22 @@ socket.emit('load', id, function (doc) {
     $('textarea').val(doc.text);
     $('body').addClass('ready');
     setWindowTitle(getFirstLine(doc.text));
-    console.dir(doc.files);
+
+    if (doc.files.length > 0) {
+        for (var i = 0; i < doc.files.length; i++) {
+            var file = doc.files[i];
+
+            var $name = $("<span>").addClass("name flex").text(file.name).attr("title", file.name);
+            var $size = $("<span>").addClass("size").text(file.size);
+            var $a = $("<a>").addClass("layout-h").attr("href", "/download/" + file.id).append($name).append($size);
+            var $li = $("<li>").append($a);
+            $("#files > ul").append($li);
+        }
+        $("#commands").addClass("short");
+    }
+    else {
+        $("#files").addClass("hidden");
+    }
 });
 
 $('textarea').on('input', function () {

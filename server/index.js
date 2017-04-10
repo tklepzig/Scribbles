@@ -20,6 +20,11 @@
 
 */
 
+function fileSizeSI(size) {
+    var e = (Math.log(size) / Math.log(1024)) | 0;
+    return +(size / Math.pow(1024, e)).toFixed(2) + ' ' + ('kMGTPEZY'[e - 1] || '') + 'B';
+}
+
 let path = require('path');
 let file = require('./file')();
 let directory = require('./directory')();
@@ -104,7 +109,7 @@ app.post("/upload/:id", function (req, res) {
         if (!documents[id].files) {
             documents[id].files = [];
         }
-        documents[id].files.push(fileId);
+        documents[id].files.push({ id: fileId, name: file.name, size: fileSizeSI(file.size) });
     });
 
     form.on('error', function (err) {

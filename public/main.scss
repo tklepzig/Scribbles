@@ -1,11 +1,13 @@
+$background: #1d1d1d;
+$foreground: #ededed;
 html {
     min-height: 100%;
     height: 100%;
 }
 
 body {
-    background: #1d1d1d;
-    color: #ededed;
+    background: $background;
+    color: $foreground;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: opacity 0.8s ease-in-out;
     opacity: 0;
@@ -17,15 +19,58 @@ body {
 textarea {
     padding: 40px 12px 12px;
     font-size: 12pt;
-    background: #1d1d1d;
+    background: $background;
     border: none;
     outline: none;
     resize: none;
     font-family: inherit;
-    color: #ededed;
+    color: $foreground;
 }
 
-div {
+progress {
+    height: 12px;
+    display: block;
+}
+
+div#files {
+    box-shadow: 0 0 30px 8px #000;
+    width: 360px;
+    ul {
+        padding: 0;
+        margin: 10px 12px;
+        li {
+            list-style: none;
+            padding: 12px 4px;
+            border-bottom: 1px solid rgba($foreground, 0.15);
+            &:last-child {
+                border: none;
+            }
+            >a {
+                color: $foreground;
+                text-decoration: none;
+                font-size: 1.1em;
+                &:hover,
+                &:active {
+                    color: darken($foreground, 15%);
+                }
+                >span.name {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding-right: 20px;
+                }
+                >span.size {
+                    text-align: right;
+                }
+            }
+        }
+    }
+    &.hidden {
+        display: none;
+    }
+}
+
+div#commands {
     position: absolute;
     top: 10px;
     right: 20px;
@@ -51,9 +96,12 @@ div {
             color: #ca1700;
         }
     }
+    &.short {
+        right: 380px;
+    }
 }
 
-#dropArea {
+div#dropArea {
     position: fixed;
     left: 0;
     top: 0;
@@ -64,8 +112,7 @@ div {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    > h4 {
+    >h4 {
         color: #fff;
         text-align: center;
         background: #5B88A5;
@@ -73,12 +120,10 @@ div {
         padding: 24px;
         visibility: hidden;
     }
-
     &.visible {
         z-index: 9999;
         background: rgba(116, 145, 163, 0.4);
-
-        > h4 {
+        >h4 {
             visibility: visible;
         }
     }
