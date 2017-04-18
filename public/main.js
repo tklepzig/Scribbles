@@ -45,9 +45,8 @@ socket.emit('load', id, function (doc) {
             var file = doc.files[i];
             addFileToList(file);
         }
-    }
-    else {
-        $("#files").addClass("hidden");
+        $(".fa-files-o").addClass("active");
+        $("#files").addClass("visible");
     }
 });
 
@@ -70,6 +69,11 @@ $('.fa-trash-o').on('click', function () {
     }
 });
 
+$('.fa-files-o').on('click', function () {
+    $(this).toggleClass("active");
+    $("#files").toggleClass("visible");
+});
+
 socket.on('change', function (e) {
     if (e.id === id) {
         $('textarea').val(e.text);
@@ -85,7 +89,8 @@ socket.on('delete', function (e) {
 
 socket.on('fileUploaded', function (file) {
     addFileToList(file);
-    $("#files").removeClass("hidden");
+    $(".fa-files-o").addClass("active");
+    $("#files").addClass("visible");
 });
 
 
@@ -96,7 +101,7 @@ $('body').bind('dragover', function (e) {
     // if (e.originalEvent.dataTransfer.items) {
     //     $('#dropArea > h4').text('Dateien und Ordner hier ablegen, um sie der Upload-Liste hinzuzufügen');
     // } else {
-        $('#dropArea > h4').text('Drop files here to add them to the document.');
+    $('#dropArea > h4').text('Drop files here to add them to the document.');
     // }
 
     $('#dropArea').addClass('visible');
