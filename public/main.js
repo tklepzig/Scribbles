@@ -45,7 +45,7 @@ socket.emit('load', id, function (doc) {
             var file = doc.files[i];
             addFileToList(file);
         }
-        $(".fa-files-o").addClass("active");
+        $(".fa-files-o").addClass("visible active");
         $("#files").addClass("visible");
     }
 });
@@ -89,7 +89,7 @@ socket.on('delete', function (e) {
 
 socket.on('fileUploaded', function (file) {
     addFileToList(file);
-    $(".fa-files-o").addClass("active");
+    $(".fa-files-o").addClass("visible active");
     $("#files").addClass("visible");
 });
 

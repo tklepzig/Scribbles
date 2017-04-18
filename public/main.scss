@@ -64,6 +64,12 @@ div#text {
             &.fa-trash-o:hover {
                 color: #ca1700;
             }
+            &.fa-files-o {
+                display: none;
+                &.visible {
+                    display: inline;
+                }
+            }
         }
     }
 }
