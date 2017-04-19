@@ -87,8 +87,11 @@ socket.on('delete', function (e) {
     }
 });
 
-socket.on('fileUploaded', function (file) {
-    addFileToList(file);
+socket.on('fileUploaded', function (e) {
+    if (e.id !== id) {
+        return;
+    }
+    addFileToList(e.file);
     $(".fa-files-o").addClass("visible active");
     $("#files").addClass("visible");
 });

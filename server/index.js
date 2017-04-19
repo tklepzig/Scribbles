@@ -110,7 +110,7 @@ app.post("/upload/:id", function (req, res) {
             documents[id].files = [];
         }
         documents[id].files.push({ id: fileId, name: file.name, size: fileSizeSI(file.size) });
-        socketIoServer.sockets.emit("fileUploaded", { id: fileId, name: file.name, size: fileSizeSI(file.size) });
+        socketIoServer.sockets.emit("fileUploaded", { id: id, file: { id: fileId, name: file.name, size: fileSizeSI(file.size) } });
     });
 
     form.on('error', function (err) {
