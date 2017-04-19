@@ -30,7 +30,7 @@ function deleteScribbleIdCookie() {
 function addFileToList(file) {
     var $name = $("<span>").addClass("name flex").text(file.name).attr("title", file.name);
     var $size = $("<span>").addClass("size").text(file.size);
-    var $a = $("<a>").addClass("layout-h").attr("href", "/download/" + file.id).append($name).append($size);
+    var $a = $("<a>").addClass("layout-h").attr("href", "/" + id + "/download/" + file.id).append($name).append($size);
     var $li = $("<li>").append($a);
     $("#files > ul").append($li);
 }
@@ -144,7 +144,7 @@ $('#dropArea').bind('drop', function (e) {
         }
 
         $.ajax({
-            url: '/upload/' + id,
+            url: '/' + id + "/upload",
             type: 'POST',
             data: formData,
             cache: false,

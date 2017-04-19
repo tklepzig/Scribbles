@@ -78,22 +78,26 @@ function stopSaveTimer() {
 
 app.use(cookieParser());
 
-app.get("/download/:fileId", function (req, res) {
-    let files = fs.readdirSync(uploadDir);
-    for (let i = 0; i < files.length; i++) {
-        let fileName = files[i];
-
-        let fileId = fileName.substr(0, fileName.indexOf("_"));
-        let fileNameWithoutId = fileName.substr(fileName.indexOf("_") + 1);
-
-        if (fileId === req.params.fileId) {
-            return res.download(path.join(uploadDir, fileName), fileNameWithoutId);
+function getFileNameByFileId(documentId, fileId) {
+    for (var i = 0; i < documents[documentId].files.length; i++) {
+        var file = documents[documentId].files[i];
+        if (file.id === fileId) {
+            return file.name;
         }
     }
+    return "";
+}
+
+app.get("/:id/download/:fileId", function (req, res) {
+    var fileName = getFileNameByFileId(req.params.id, req.params.fileId);
+    if (fileName.length > 0) {
+        return res.download(path.join(uploadDir, req.params.fileId), fileName);
+    }
+
     res.status(404).send('Not found');
 });
 
-app.post("/upload/:id", function (req, res) {
+app.post("/:id/upload", function (req, res) {
     let id = req.params.id;
     let form = new formidable.IncomingForm();
     form.multiples = true;
@@ -101,7 +105,7 @@ app.post("/upload/:id", function (req, res) {
 
     form.on('file', function (field, file) {
         const fileId = uuid.v4();
-        fs.rename(file.path, path.join(form.uploadDir, fileId + "_" + file.name));
+        fs.rename(file.path, path.join(form.uploadDir, fileId));
 
         if (!documents[id]) {
             documents[id] = {};
