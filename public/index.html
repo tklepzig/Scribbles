@@ -16,25 +16,26 @@
     <link rel="stylesheet" href="main.min.css">
 </head>
 
-<body class="layout-h layout-fill">
-    <div id="text" class="flex" style="position: relative;">
-        <textarea cols="60" rows="20" class="flex" autofocus></textarea>
-        <div>
-            <i title="Copy to Clipboard" style="font-size: 0.8em;" class="fa fa-clone"></i>
-            <i title="Delete" class="fa fa-trash-o"></i>
-            <i title="Attached Files" style="font-size: 0.8em;" class="fa fa-files-o"></i>
+<body>
+    <section class="root layout-h layout-fill">
+        <div id="text" class="flex" style="position: relative;">
+            <textarea cols="60" rows="20" class="flex" autofocus></textarea>
+            <div>
+                <i title="Copy to Clipboard" style="font-size: 0.8em;" class="fa fa-clone"></i>
+                <i title="Delete" class="fa fa-trash-o"></i>
+                <i title="Attached Files" style="font-size: 0.8em;" class="fa fa-files-o"></i>
+            </div>
         </div>
-    </div>
-    <div id="files">
-        <ul></ul>
-    </div>
-    <div id="dropArea">
-        <h4></h4>
-    </div>
+        <div id="files">
+            <ul></ul>
+        </div>
+        <div id="dropArea">
+            <h4></h4>
+        </div>
+    </section>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="main.js"></script>
-
 </body>
 
 </html>

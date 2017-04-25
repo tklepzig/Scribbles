@@ -12,9 +12,15 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: opacity 0.8s ease-in-out;
     opacity: 0;
+    height: 100%;
+    margin: 0;
     &.ready {
         opacity: 1;
     }
+}
+
+section.root {
+    height: 100%;
 }
 
 div#text {
@@ -37,6 +43,7 @@ div#text {
         resize: none;
         font-family: inherit;
         color: $foreground;
+        overflow: auto;
     }
     >div {
         position: absolute;
