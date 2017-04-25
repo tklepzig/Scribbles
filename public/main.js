@@ -6,10 +6,16 @@ if (id.length === 0) {
     id = pathArray.pop();
 }
 
-
-if (typeof document.createElement("p").style.flex === "undefined") {
-    $("#text").addClass("no-flex-support");
-}
+(function () {
+    if (typeof document.createElement("p").style.flex === "undefined") {
+        $("#text").addClass("no-flex-support");
+    }
+    var input = document.createElement('input');
+    input.type = "file";
+    if (typeof input.files === "undefined") {
+        alert("File Upload not supported");
+    }
+})();
 
 function getFirstLine(text) {
     var indexOfFirstLineBreak = text.indexOf('\n');
