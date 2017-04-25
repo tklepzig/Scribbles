@@ -6,6 +6,11 @@ if (id.length === 0) {
     id = pathArray.pop();
 }
 
+
+if (typeof document.createElement("p").style.flex === "undefined") {
+    $("#text").addClass("no-flex-support");
+}
+
 function getFirstLine(text) {
     var indexOfFirstLineBreak = text.indexOf('\n');
     if (indexOfFirstLineBreak === -1) {

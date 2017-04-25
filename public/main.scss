@@ -26,6 +26,16 @@ section.root {
 div#text {
     z-index: 2;
     box-shadow: 0 0 30px 8px #000;
+    position: relative;
+    &.no-flex-support {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+    }
     >textarea {
         position: absolute;
         left: 0;
