@@ -27,7 +27,7 @@ div#text {
     z-index: 2;
     box-shadow: 0 0 30px 8px #000;
     position: relative;
-    &.no-flex-support {
+    body.no-flex-support & {
         position: absolute;
         left: 0;
         top: 0;
@@ -100,7 +100,7 @@ div#files {
     display: none;
     width: 300px;
     background: inherit;
-    &.no-flex-support {
+    body.no-flex-support & {
         position: absolute;
         top: 0;
         right: 0;
@@ -126,14 +126,19 @@ div#files {
                     color: darken($foreground, 15%);
                     color: $accent;
                 }
-                >span.name {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    padding-right: 20px;
-                }
-                >span.size {
-                    text-align: right;
+                >span {
+                    body.no-flex-support & {
+                        display: inline-block;
+                    }
+                    &.name {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        padding-right: 20px;
+                    }
+                    &.size {
+                        text-align: right;
+                    }
                 }
             }
         }
