@@ -88,6 +88,13 @@ function getFileNameByFileId(documentId, fileId) {
     return "";
 }
 
+function deleteFilesByDocumentId(documentId) {
+    for (var i = 0; i < documents[documentId].files.length; i++) {
+        var file = documents[documentId].files[i];
+        fs.unlinkSync(path.join(uploadDir, file.id));
+    }
+}
+
 app.get("/:id/download/:fileId", function (req, res) {
     var fileName = getFileNameByFileId(req.params.id, req.params.fileId);
     if (fileName.length > 0) {
@@ -177,6 +184,7 @@ socketIoServer.on('connection', function (socket) {
 
     socket.on('delete', function (e) {
         stopSaveTimer();
+        deleteFilesByDocumentId(e.id);
         delete documents[e.id];
         file.write(documentsFile, JSON.stringify(documents));
         startSaveTimer();
