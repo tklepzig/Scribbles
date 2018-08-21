@@ -1,0 +1,8 @@
+- Only Once on Dev: Register Multiarch Build Agent
+    - `docker run --rm --privileged multiarch/qemu-user-static:register --reset`
+- Dev
+    - `docker build -t scribbles:arm .`
+    - `docker save -o scribbles.tar.gz scribbles`
+    - *Copy to Pi (scp)*
+- Pi
+    - `docker load -i scribbles.tar.gz`
